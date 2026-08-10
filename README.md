@@ -21,7 +21,30 @@ This application processes receipt and invoice documents using OCR and an LLM to
 
 ## Setup and Installation
 
-### Prerequisites
+### Option A: Docker (recommended)
+
+This avoids every OS-specific setup issue below entirely — Tesseract install
+differences, Python environment conflicts, PATH problems. All you need is
+Docker installed.
+
+```bash
+git clone https://github.com/mohammedibrahim5002/document_data_extractor
+cd document_data_extractor
+
+echo "GROQ_API_KEY=your_groq_api_key_here" > .env
+# (or copy .env.example to .env and edit it)
+
+docker build -t doc-extractor .
+docker run -p 8000:8000 --env-file .env doc-extractor
+```
+
+Open `http://localhost:8000`.
+
+### Option B: Local Python environment
+
+Unlike Option A, this depends on your local Python/Tesseract setup being clean.
+
+#### Prerequisites
 
 Tesseract OCR must be installed on your system:
 
@@ -29,19 +52,30 @@ Tesseract OCR must be installed on your system:
 * **macOS:** `brew install tesseract`
 * **Linux:** `sudo apt install tesseract-ocr`
 
-### Installation Steps
+#### Installation Steps
 
 1. Clone the repository:
    ```bash
-   git clone [https://github.com/mohammedibrahim5002/document_data_extractor](https://github.com/mohammedibrahim5002/document_data_extractor)
+   git clone https://github.com/mohammedibrahim5002/document_data_extractor
    cd document_data_extractor
    ```
 
-2. Create and activate a virtual environment:
+2. Create a virtual environment:
    ```bash
    python -m venv venv
-   # Windows: venv\Scripts\activate | macOS/Linux: source venv/bin/activate
    ```
+
+   Activate it — **use the command matching your shell**:
+   * Command Prompt (Windows): `venv\Scripts\activate.bat`
+   * PowerShell (Windows): `.\venv\Scripts\Activate.ps1` — if this errors about
+     script execution being disabled, run
+     `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` once, then retry.
+   * macOS/Linux: `source venv/bin/activate`
+
+   Your prompt should now show `(venv)`. If you also have Anaconda/Miniconda
+   installed, run `conda deactivate` first if your prompt shows `(base)` —
+   installing into a conda base environment is a common source of Windows
+   permission errors with this project's dependencies.
 
 3. Install required dependencies:
    ```bash

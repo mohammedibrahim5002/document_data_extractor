@@ -73,4 +73,4 @@ if __name__ == "__main__":
     # Automatically open browser
     threading.Timer(1.5, open_browser, args=[port]).start()
     
-    uvicorn.run(app, host="127.0.0.1", port=port)
+    uvicorn.run(app, host="0.0.0.0", port=port)
