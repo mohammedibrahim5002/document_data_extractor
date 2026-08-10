@@ -1,0 +1,51 @@
+{
+    "invoice_id": "CS1801/27175",
+    "date": "2018-01-27",
+    "line_items": [
+        {
+            "description": "DOUBLE SIDE FOAM TAPE 18MM",
+            "quantity": 1,
+            "unit_price": 2.74,
+            "total": 2.74
+        },
+        {
+            "description": "CAMIS SQ BOOK 200",
+            "quantity": 1,
+            "unit_price": 8.47,
+            "total": 8.47
+        },
+        {
+            "description": "EAGLE F4 200 FOOLSCAP BOOK",
+            "quantity": 1,
+            "unit_price": 4.09,
+            "total": 4.09
+        },
+        {
+            "description": "EAGLE F4 120 NUMBERING FOOLSCAP BOOK",
+            "quantity": 1,
+            "unit_price": 4.09,
+            "total": 4.09
+        },
+        {
+            "description": "EAGLE F4 200 FOOLSCAP BOOK",
+            "quantity": 1,
+            "unit_price": 4.09,
+            "total": 4.09
+        },
+        {
+            "description": "EAGLE F4 120 NUMBERING FOOLSCAP BOOK",
+            "quantity": 1,
+            "unit_price": 4.09,
+            "total": 4.09
+        }
+    ],
+    "tax": 1.55,
+    "discount": 0.0,
+    "grand_total": 27.35,
+    "_validation": {
+        "is_valid": false,
+        "warnings": [
+            "Math Error: Items sum (27.57) does not match Grand Total (27.35)."
+        ]
+    }
+}

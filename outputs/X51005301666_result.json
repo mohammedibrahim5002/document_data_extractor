@@ -1,0 +1,37 @@
+{
+    "invoice_id": "LCNO0212",
+    "date": "2017-11-20",
+    "line_items": [
+        {
+            "description": "SR YE3G BK 12W WW LED TRACK LIGHT",
+            "quantity": 2.0,
+            "unit_price": 45.29,
+            "total": 90.57
+        },
+        {
+            "description": "SR YE44 35W WW BK TRACK HOLDER",
+            "quantity": 1.0,
+            "unit_price": 155.66,
+            "total": 155.66
+        },
+        {
+            "description": "SR IMETER TRACK-BK",
+            "quantity": 1.0,
+            "unit_price": 16.99,
+            "total": 16.99
+        },
+        {
+            "description": "SR RM39.80 CONTRA W LCNOO211",
+            "quantity": 0.0,
+            "unit_price": 0.0,
+            "total": 0.0
+        }
+    ],
+    "grand_total": 278.8,
+    "tax": 15.78,
+    "discount": 0.2,
+    "_validation": {
+        "is_valid": true,
+        "warnings": []
+    }
+}

@@ -1,0 +1,39 @@
+{
+    "invoice_id": "01H-25029",
+    "date": "2018-03-20",
+    "line_items": [
+        {
+            "description": "KO NABE INANIWA",
+            "quantity": 1,
+            "unit_price": 24.0,
+            "total": 24.0
+        },
+        {
+            "description": "GREEN TEA",
+            "quantity": 1,
+            "unit_price": 1.0,
+            "total": 1.0
+        },
+        {
+            "description": "GYOZA 5pcs",
+            "quantity": 1,
+            "unit_price": 15.0,
+            "total": 15.0
+        },
+        {
+            "description": "GARLIC CHAHAN",
+            "quantity": 1,
+            "unit_price": 6.0,
+            "total": 6.0
+        }
+    ],
+    "tax": 3.0,
+    "discount": 0.0,
+    "grand_total": 53.0,
+    "_validation": {
+        "is_valid": false,
+        "warnings": [
+            "Math Error: Items sum (46.00) does not match Grand Total (53.00)."
+        ]
+    }
+}

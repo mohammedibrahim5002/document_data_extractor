@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Data Extractor</title>
+    <style>
+        :root {
+            --bg-color: #f8fafc;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --primary-btn: #334155;
+            --primary-hover: #0f172a;
+            --panel-bg: #ffffff;
+            --success-bg: #f0fdf4;
+            --success-border: #16a34a;
+            --success-text: #15803d;
+            --warning-bg: #fffbeb;
+            --warning-border: #d97706;
+            --warning-text: #b45309;
+            --error-text: #b91c1c;
+        }
+
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+            max-width: 1400px; 
+            margin: 0 auto; 
+            padding: 30px; 
+            line-height: 1.5; 
+            background-color: var(--bg-color);
+            color: var(--text-main);
+        }
+
+        .header {
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+
+        .header h1 { 
+            margin: 0 0 5px 0; 
+            font-size: 24px;
+            font-weight: 600;
+        }
+        
+        .header p { 
+            margin: 0; 
+            color: var(--text-muted); 
+            font-size: 14px;
+        }
+        
+        .upload-section { 
+            background: var(--panel-bg); 
+            border: 1px solid var(--border-color); 
+            padding: 20px; 
+            border-radius: 6px; 
+            margin-bottom: 25px; 
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        input[type="file"] {
+            font-size: 14px;
+            color: var(--text-main);
+        }
+        
+        button { 
+            background: var(--primary-btn); 
+            color: white; 
+            border: none; 
+            padding: 8px 16px; 
+            font-size: 14px; 
+            border-radius: 4px; 
+            cursor: pointer; 
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+
+        button:hover { 
+            background: var(--primary-hover); 
+        }
+
+        #status {
+            margin: 0;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+        
+        /* Side-by-side Layout */
+        .workspace {
+            display: flex;
+            gap: 25px;
+            align-items: flex-start;
+        }
+        
+        .panel {
+            flex: 1;
+            background: var(--panel-bg);
+            padding: 20px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            width: 50%;
+        }
+
+        .panel-title {
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        /* Image/PDF Preview Styling */
+        #previewContainer img, #previewContainer iframe {
+            max-width: 100%;
+            height: 600px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            object-fit: contain;
+            background-color: var(--bg-color);
+        }
+
+        /* JSON Output Styling */
+        #result { 
+            background: #1e1e1e; 
+            color: #d4d4d4; 
+            padding: 15px; 
+            border-radius: 4px; 
+            overflow-x: auto; 
+            font-family: "Consolas", "Monaco", monospace;
+            font-size: 13px;
+            max-height: 500px;
+            overflow-y: auto;
+            margin: 0;
+        }
+        
+        .alert {
+            padding: 12px 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            border-left: 4px solid;
+        }
+
+        .alert-success { 
+            background-color: var(--success-bg); 
+            color: var(--success-text); 
+            border-color: var(--success-border);
+        }
+
+        .alert-warning { 
+            background-color: var(--warning-bg); 
+            color: var(--warning-text); 
+            border-color: var(--warning-border);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Document Data Extractor</h1>
+        <p>Upload a receipt or invoice for automated data extraction and validation.</p>
+    </div>
+
+    <div class="upload-section">
+        <input type="file" id="fileInput" accept=".png,.jpg,.jpeg,.pdf">
+        <button onclick="uploadDocument()">Process Document</button>
+        <p id="status"></p>
+    </div>
+
+    <div id="workspace" class="workspace" style="display: none;">
+        
+        <!-- Left Side: Original Document -->
+        <div class="panel">
+            <h3 class="panel-title">Source Document</h3>
+            <div id="previewContainer"></div>
+        </div>
+
+        <!-- Right Side: Extracted JSON & Validation -->
+        <div class="panel">
+            <h3 class="panel-title">Extraction Results</h3>
+            <div id="validationBox"></div>
+            <pre id="result"></pre>
+        </div>
+
+    </div>
+
+    <script>
+        async function uploadDocument() {
+            const fileInput = document.getElementById('fileInput');
+            const status = document.getElementById('status');
+            const workspace = document.getElementById('workspace');
+            const previewContainer = document.getElementById('previewContainer');
+            const result = document.getElementById('result');
+            const validationBox = document.getElementById('validationBox');
+
+            if (fileInput.files.length === 0) {
+                alert("Please select a file to process.");
+                return;
+            }
+
+            const file = fileInput.files[0];
+
+            // Setup preview
+            const fileURL = URL.createObjectURL(file);
+            previewContainer.innerHTML = ""; 
+            if (file.type === "application/pdf") {
+                previewContainer.innerHTML = `<iframe src="${fileURL}" width="100%"></iframe>`;
+            } else {
+                previewContainer.innerHTML = `<img src="${fileURL}" alt="Document Preview">`;
+            }
+
+            const formData = new FormData();
+            formData.append("file", file);
+
+            status.style.color = "var(--text-muted)";
+            status.innerHTML = "Processing document. Please wait...";
+            workspace.style.display = "flex";
+            result.textContent = "Awaiting response from backend...";
+            validationBox.style.display = "none";
+
+            try {
+                const response = await fetch('/api/extract', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                status.style.color = "var(--success-text)";
+                status.innerHTML = "Processing complete.";
+                result.textContent = JSON.stringify(data, null, 4);
+                validationBox.style.display = "block";
+
+                if (data._validation.is_valid) {
+                    validationBox.className = "alert alert-success";
+                    validationBox.innerHTML = "<strong>Validation Status: Passed</strong><br>Mathematical integrity verified.";
+                } else {
+                    validationBox.className = "alert alert-warning";
+                    validationBox.innerHTML = "<strong>Validation Status: Warnings Detected</strong><br>• " + data._validation.warnings.join("<br>• ");
+                }
+
+            } catch (error) {
+                status.style.color = "var(--error-text)";
+                status.innerHTML = "System Error: Unable to process document.";
+                result.textContent = "Error communicating with backend.";
+                console.error(error);
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+# Environments and Secrets
+.env
+.env.*
+!.env.example
+venv/
+env/
+.venv/
+
+# Python Bytecode (Auto-generated system files)
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# OS Metadata
+.DS_Store
+Thumbs.db
+
+# Note: We are explicitly NOT ignoring the outputs/ folder 
+# because the hackathon rubric requires sample outputs to be committed.

@@ -1,0 +1,19 @@
+{
+    "invoice_id": "000000111",
+    "date": "2019-01-02",
+    "line_items": [
+        {
+            "description": "KINGS SAFETY Poo4 SHOES KWD 805",
+            "quantity": 1.0,
+            "unit_price": 170.0,
+            "total": 170.0
+        }
+    ],
+    "grand_total": 170.0,
+    "tax": 0.0,
+    "discount": 0.0,
+    "_validation": {
+        "is_valid": true,
+        "warnings": []
+    }
+}

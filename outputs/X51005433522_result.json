@@ -1,0 +1,25 @@
+{
+    "invoice_id": "00700000035",
+    "date": "2018-03-01",
+    "line_items": [
+        {
+            "description": "Meat +3 Vege",
+            "quantity": 1,
+            "unit_price": 7.1,
+            "total": 7.1
+        },
+        {
+            "description": "SR Vegetable",
+            "quantity": 1,
+            "unit_price": 1.1,
+            "total": 1.1
+        }
+    ],
+    "tax": 0.48,
+    "discount": 0.0,
+    "grand_total": 8.2,
+    "_validation": {
+        "is_valid": true,
+        "warnings": []
+    }
+}

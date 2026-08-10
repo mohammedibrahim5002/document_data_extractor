@@ -1,0 +1,11 @@
+groq
+pydantic
+opencv-python-headless
+numpy
+pytesseract
+pymupdf
+Pillow
+python-dotenv
+fastapi
+uvicorn
+python-multipart

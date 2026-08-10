@@ -1,0 +1,55 @@
+{
+    "invoice_id": "INV! ORD #90 -REG #19",
+    "date": "2018-01-18",
+    "line_items": [
+        {
+            "description": "M SpicyDeluxe",
+            "quantity": 2,
+            "unit_price": 0.0,
+            "total": 25.4
+        },
+        {
+            "description": "2M Coke",
+            "quantity": 2,
+            "unit_price": 0.0,
+            "total": 0.0
+        },
+        {
+            "description": "2M Fries",
+            "quantity": 2,
+            "unit_price": 0.0,
+            "total": 0.0
+        },
+        {
+            "description": "M GrilChicBor",
+            "quantity": 1,
+            "unit_price": 0.0,
+            "total": 12.5
+        },
+        {
+            "description": "1M Coke",
+            "quantity": 1,
+            "unit_price": 0.0,
+            "total": 0.0
+        },
+        {
+            "description": "1M Fries",
+            "quantity": 1,
+            "unit_price": 0.0,
+            "total": 0.0
+        },
+        {
+            "description": "Cone",
+            "quantity": 1,
+            "unit_price": 0.0,
+            "total": 1.0
+        }
+    ],
+    "tax": 2.2,
+    "discount": 0.0,
+    "grand_total": 38.9,
+    "_validation": {
+        "is_valid": true,
+        "warnings": []
+    }
+}
