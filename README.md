@@ -33,8 +33,8 @@ Tesseract OCR must be installed on your system:
 
 1. Clone the repository:
    ```bash
-   git clone [https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git](https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git)
-   cd YOUR_REPO_NAME
+   git clone [https://github.com/mohammedibrahim5002/document_data_extractor](https://github.com/mohammedibrahim5002/document_data_extractor)
+   cd document_data_extractor
    ```
 
 2. Create and activate a virtual environment:
