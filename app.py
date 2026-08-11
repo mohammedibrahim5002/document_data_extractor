@@ -4,7 +4,8 @@ import json
 import socket
 import threading
 import webbrowser
-from fastapi import FastAPI, UploadFile, File
+import traceback  # Added for detailed error logging
+from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.responses import HTMLResponse
 import uvicorn
 from dotenv import load_dotenv
@@ -26,8 +27,6 @@ async def serve_ui():
         return f.read()
 
 # Extraction API Endpoint
-from fastapi import HTTPException
-
 @app.post("/api/extract")
 async def extract_data(file: UploadFile = File(...)):
     # 1. Validate the file type
@@ -37,24 +36,31 @@ async def extract_data(file: UploadFile = File(...)):
             status_code=400, 
             detail="Invalid file type. Only JPEG, PNG, and PDF are supported."
         )
-        
+    
+    # Initialize the variable as None so the 'finally' block doesn't crash if it fails early
+    temp_file_path = None 
+
     try:
-        # Step A: Ingestion (OCR)
+        # 2. Define the path and save the uploaded file to disk
+        temp_file_path = f"temp_{file.filename}"
+        with open(temp_file_path, "wb") as buffer:
+            shutil.copyfileobj(file.file, buffer)
+            
+        # 3. Perform OCR
         raw_text = perform_ocr(temp_file_path)
         
-        # Step B: LLM Processing & Sanity Checks
-        validated_json = process_document(raw_text)
-        
-        # Step C: Save to outputs/ folder
-        os.makedirs("outputs", exist_ok=True)
-        output_filename = file.filename.rsplit('.', 1)[0] + "_result.json"
-        with open(os.path.join("outputs", output_filename), "w", encoding="utf-8") as f:
-            json.dump(validated_json, f, indent=4)
-            
-        return validated_json
+        # 4. Pass the raw text to the LLM and return the JSON
+        json_result = process_document(raw_text)
+        return json_result
+
+    except Exception as e:
+        print("====== ACTUAL ERROR DETAILS ======")
+        traceback.print_exc()  # This prints the exact red error to your terminal
+        raise HTTPException(status_code=500, detail=str(e))
         
     finally:
-        if os.path.exists(temp_file_path):
+        # 5. Clean up: Delete the temporary file after processing is done
+        if temp_file_path and os.path.exists(temp_file_path):
             os.remove(temp_file_path)
 
 def find_free_port(start_port=8000):

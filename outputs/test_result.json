@@ -1,0 +1,12 @@
+{
+    "invoice_id": "",
+    "date": "",
+    "line_items": [],
+    "tax": 0.0,
+    "discount": 0.0,
+    "grand_total": 0.0,
+    "_validation": {
+        "is_valid": true,
+        "warnings": []
+    }
+}
