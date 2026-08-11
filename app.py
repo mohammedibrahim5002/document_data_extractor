@@ -26,11 +26,17 @@ async def serve_ui():
         return f.read()
 
 # Extraction API Endpoint
+from fastapi import HTTPException
+
 @app.post("/api/extract")
 async def extract_data(file: UploadFile = File(...)):
-    temp_file_path = f"temp_{file.filename}"
-    with open(temp_file_path, "wb") as buffer:
-        shutil.copyfileobj(file.file, buffer)
+    # 1. Validate the file type
+    allowed_types = ["image/jpeg", "image/png", "application/pdf"]
+    if file.content_type not in allowed_types:
+        raise HTTPException(
+            status_code=400, 
+            detail="Invalid file type. Only JPEG, PNG, and PDF are supported."
+        )
         
     try:
         # Step A: Ingestion (OCR)
