@@ -2,7 +2,7 @@ import json
 import os
 from datetime import datetime
 from groq import Groq
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ValidationError
 from typing import List
 
 # 1. Pydantic Schema for Strict Extraction
@@ -97,5 +97,20 @@ def run_sanity_checks(data: dict) -> dict:
 def process_document(ocr_text: str) -> dict:
     """Main pipeline function."""
     extracted_json = parse_document_with_llm(ocr_text)
+
+    # Structural validation: does the LLM output actually match the
+    # expected shape (types, required fields), independent of the
+    # arithmetic checks below.
+    try:
+        InvoiceData(**extracted_json)
+        schema_error = None
+    except ValidationError as e:
+        schema_error = str(e)
+
     validated_json = run_sanity_checks(extracted_json)
+    if schema_error:
+        validated_json["_validation"]["is_valid"] = False
+        validated_json["_validation"]["warnings"].append(
+            f"Schema validation failed: {schema_error}"
+        )
     return validated_json

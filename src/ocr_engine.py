@@ -299,7 +299,14 @@ def perform_ocr(file_path: str) -> str:
     """
     Bridge function for the LLM Agent.
     Runs token extraction and joins the tokens into a single text string.
+
+    Plain .txt files skip OCR entirely -- the file content IS the text,
+    so there's nothing to extract from an image.
     """
+    if Path(file_path).suffix.lower() == '.txt':
+        with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
+            return f.read()
+
     tokens = extract_tokens(file_path)
     raw_text = " ".join([t['text'] for t in tokens])
     return raw_text
